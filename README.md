@@ -1,7 +1,9 @@
 INTRODUCTION
 ============
 
-Your mission, if you choose to accept it, is to write a Battleship game. In detail, we want YOU:
+Your mission, if you choose to accept it, is to write a Battleship game. 
+
+In detail, we want YOU:
 - to write a Battleship board program called `battleserver.py`:
     - it must create a board for a game of Battleship
     - with the `--show` flag, it should print out the board
@@ -18,19 +20,20 @@ _Include a file called `AUTHORS` with information about your team!_
 AGENDA
 ======
 
-1. 6:00 - 6:15 -- Setup
-2. 6:15 - 6:30 -- Break into groups
-3. 6:30 - 7:00 -- Sprint 1
-4. 7:00 - 7:15 -- Q&A 1
-5. 7:15 - 7:45 -- Sprint 2
-6. 7:45 - 8:00 -- Q&A 2
-7. 8:00 - 8:30 -- Final sprint
-8. 8:30 -- Deadline for pull requests!
+- 6:00 - 6:15: Setup
+- 6:15 - 6:30: Break into groups
+- 6:30 - 7:00: Sprint #1
+- 7:00 - 7:15: Q&A Session #1
+- 7:15 - 7:45: Sprint #2
+- 7:45 - 8:00: Q&A Session #2
+- 8:00 - 8:30: Final sprint
+- 8:30: Deadline for pull requests!
 
-RECOMMENDED COURSE OF ACTION
+RECOMMENDED COURSE of ACTION
 ============================
 
 If you are unsure where to start, we recommend you follow these steps:
+
 1. write `battleserver.py` which can create a board with units at specified positions.
 2. extend `battleserver.py` to display the board.
 3. extend `battleserver.py` to support random positioning of units.
