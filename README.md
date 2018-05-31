@@ -13,12 +13,18 @@ In detail, we want YOU:
     - ideally, it should implement some algorithm or heuristic to play a game of Battleship optimally
 - to write tests to validate the correct operation of the above two programs. Good code should come with some guarantee that it does what it claims (no Djikstra quotes accepted at this time)
 
+We'll be working in teams, to share knowledge!
+
 _Submit your solutions via pull request on Github!_
 
 _Include a file called `AUTHORS` with information about your team!_
 
 AGENDA
 ======
+
+The goal is to get as much done in the time alotted. 
+Three sprints are scheduled, with designated break times to ask the 
+proctors for help, or just stretch/grab tea/give your eyes a rest.
 
 | time      | activity
 |-----------|-----------------------------
@@ -46,6 +52,9 @@ If you are unsure where to start, we recommend you follow these steps:
 SCORING
 =======
 
+To help you judge how well you've done, we have a scoring rubric. 
+The point distributions designate how complex and important each feature is.
+
 `battleserver.py` and `battleplayer.py` are scored as follows (50 points):
 
 `battleserver.py`: (total 20 points)
@@ -69,6 +78,8 @@ Misc: (total 10 points with 10 bonus points)
 
 CREATING a BOARD with `battleserver.py`
 =======================================
+
+Here are the rules:
 
 Battleship has a board with ships on it. The board can be of any
 size. The board can have up to five different ships, one of each type.
@@ -122,6 +133,9 @@ VIEWING THE BOARD CREATED WITH `battleserver.py`
 
 Use the `--show` flag with `battleserver.py` to view the board.
 
+**This is a useful debug tool and you should implement it early, and 
+use it frequently!**
+
 The output should be a textual representation of the board.
 
 Use the following characters to denote spaces occupied by units:
@@ -144,7 +158,7 @@ c----
 PLAYING INTERACTIVELY AGAINST `battleserver.py`
 ===============================================
 
-Use the `--play` flag with `battleserver.py` to play interactively.
+Use the `--play` flag with `battleserver.py` to play interactively. 
 
 Read actions from the console. Actions should be of the form `x, y` to indicate
 firing a missile at the square at (x, y).
