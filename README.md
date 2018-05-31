@@ -20,14 +20,16 @@ _Include a file called `AUTHORS` with information about your team!_
 AGENDA
 ======
 
-- 6:00 - 6:15: Setup
-- 6:15 - 6:30: Break into groups
-- 6:30 - 7:00: Sprint #1
-- 7:00 - 7:15: Q&A Session #1
-- 7:15 - 7:45: Sprint #2
-- 7:45 - 8:00: Q&A Session #2
-- 8:00 - 8:30: Final sprint
-- 8:30: Deadline for pull requests!
+| time      | activity
+|-----------|-----------------------------
+|6:00 - 6:15| Setup
+|6:15 - 6:30| Break into groups
+|6:30 - 7:00| Sprint #1
+|7:00 - 7:15| Q&A Session #1
+|7:15 - 7:45| Sprint #2
+|7:45 - 8:00| Q&A Session #2
+|8:00 - 8:30| Final sprint
+|8:30       | Deadline for pull requests!
 
 RECOMMENDED COURSE of ACTION
 ============================
@@ -72,11 +74,14 @@ Battleship has a board with ships on it. The board can be of any
 size. The board can have up to five different ships, one of each type.
 
 The ships are:
-- a carrier is *5* squares in size
-- a battleship is *4* squares in size
-- a cruiser is *3* squares in size
-- a submarine is *3* squares in size
-- a destroyer is *2* squares in size
+
+| ship       | size |
+|------------|------|
+| carrier    |  5   |
+| battleship |  4   |
+| cruiser    |  3   |
+| submarine  |  3   |
+| destroyer  |  2   |
 
 Ships must be placed in a straight line, either horizontally or vertically.
 
