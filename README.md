@@ -1,24 +1,36 @@
 INTRODUCTION
 ============
 
-Your goal:
-- to write a program called `battleserver.py`:
-    - creates a board for a game of Battleship
-    - with the `--show` flag, just prints out the board
-    - with the `--play` flag, allows the user to play a game interactively
-- to write a program called `battleplayer.py`:
-    - interacts with `battleserver.py` to play a game of Battleship automatically
-    - implements some algorithm or heuristic to play a game of Battleship optimally
-- to write tests to validate the correct operation of the above two programs
+Your mission, if you choose to accept it, is to write a Battleship game. In detail, we want YOU:
+- to write a Battleship board program called `battleserver.py`:
+    - it must create a board for a game of Battleship
+    - with the `--show` flag, it should print out the board
+    - with the `--play` flag, it should allow the user to play a "one player" game interactively
+- to write a Battleship playing robot called `battleplayer.py`:
+    - it needs to use `battleserver.py` to play a game of Battleship automatically
+    - ideally, it should implement some algorithm or heuristic to play a game of Battleship optimally
+- to write tests to validate the correct operation of the above two programs. Good code should come with some guarantee that it does what it claims (no Djikstra quotes accepted at this time)
 
-_Submit your solutions via pull-request on Github!_
+_Submit your solutions via pull request on Github!_
 
-_Include a file called *AUTHORS* with information about your team!_
+_Include a file called `AUTHORS` with information about your team!_
 
-GUIDANCE
-========
+AGENDA
+======
 
-Follow these steps:
+1. 6:00 - 6:15 -- Setup
+2. 6:15 - 6:30 -- Break into groups
+3. 6:30 - 7:00 -- Sprint 1
+4. 7:00 - 7:15 -- Q&A 1
+5. 7:15 - 7:45 -- Sprint 2
+6. 7:45 - 8:00 -- Q&A 2
+7. 8:00 - 8:30 -- Final sprint
+8. 8:30 -- Deadline for pull requests!
+
+RECOMMENDED COURSE OF ACTION
+============================
+
+If you are unsure where to start, we recommend you follow these steps:
 1. write `battleserver.py` which can create a board with units at specified positions.
 2. extend `battleserver.py` to display the board.
 3. extend `battleserver.py` to support random positioning of units.
@@ -31,6 +43,7 @@ SCORING
 
 `battleserver.py` and `battleplayer.py` are scored as follows (50 points):
 
+`battleserver.py`: (total 20 points)
 - unit placement functionality (10 pts total)
     - manual placement (2 pts)
     - random placement (3 pts)
@@ -38,27 +51,47 @@ SCORING
     - error handling (what if the board is too small? etc.) (3 pts)
     - displays board (1 pt)
 - supports interactive play (10 pts total)
+
+`battleplayer.py`: (total 20 points)
 - supports automatic play (20 pts total)
     - simple, brute-force strategy (8 pts)
     - more advanced strategy (8 pts)
     - best strategy among participants (4 pts)
+
+Misc: (total 10 points with 10 bonus points)
 - quality and exhaustiveness of tests (10 pts)
 - "elegance" (up to +10 bonus points)
 
 CREATING a BOARD with `battleserver.py`
 =======================================
 
-A Battleship board can be of any size. Specify the size of the board in
-`battleserver.py` and `battleplayer.py` on the command line with the `--size` flag.
+Battleship has a board with ships on it. The board can be of any
+size. The board can have up to five different ships, one of each type.
+
+The ships are:
+- a carrier is *5* squares in size
+- a battleship is *4* squares in size
+- a cruiser is *3* squares in size
+- a submarine is *3* squares in size
+- a destroyer is *2* squares in size
+
+Ships must be placed in a straight line, either horizontally or vertically.
+
+Ships must FIT onto the board.
+
+Specify the size of the board in `battleserver.py` and `battleplayer.py` on the
+command line with the `--size` flag.
 
 e.g.,
 `$ python battleserver.py --size=5,5 # create a board of size 5x5`
 
-A Battleship game may include at most one of each unit. You may omit units.
+A Battleship game may include **at most** one of each unit. 
+In other words, you don't need to have every unit on the board.
+
 Place the units on the board by passing the following flags to `battleserver.py`:
 `--carrier` `--battleship` `--cruiser` `--submarine` `--destroyer`
 
-The argument these flag should take should be of the form (using the carrier as an example):
+The argument these flags should take should be of the form (using the carrier as an example):
 - `--carrier=x,y,h` to place the carrier horizontally starting at (x, y)
 - `--carrier=x,y,v` to place the carrier vertically starting at (x, y)
 - `--carrier=r` to place the carrier randomly anywhere on the board
@@ -75,24 +108,13 @@ $ python battleserver.py --size=5,5 --carrier=1,1,h # create a board of size 5x5
 #                         and placing the submarine horizontally starting at (8, 10)
 $ python battleserver.py --size=10,10 --carrier=1,1,v --submarine=8,10,h
 ```
-                              
-For reference:
-- a carrier is *5* squares in size
-- a battleship is *4* squares in size
-- a cruiser is *3* squares in size
-- a submarine is *3* squares in size
-- a destroyer is *2* squares in size
 
-Ships must be placed in a straight line, either horizontally or vertically.
-
-Ships must FIT onto the board.
-
-VIEWING the BOARD CREATED with `battleserver.py`
+VIEWING THE BOARD CREATED WITH `battleserver.py`
 ===============================================
 
 Use the `--show` flag with `battleserver.py` to view the board.
 
-The output should be an ASCII representation of the board.
+The output should be a textual representation of the board.
 
 Use the following characters to denote spaces occupied by units:
 - *c* for the Carrier
@@ -111,7 +133,7 @@ c----
 c----
 ```
 
-PLAYING INTERACTIVELY against `battleserver.py`
+PLAYING INTERACTIVELY AGAINST `battleserver.py`
 ===============================================
 
 Use the `--play` flag with `battleserver.py` to play interactively.
@@ -149,14 +171,14 @@ sunk carrier
 you win!
 ```
 
-PLAYING AUTOMATICALLY against `battleserver.py`
+PLAYING AUTOMATICALLY AGAINST `battleserver.py`
 ===============================================
 
-NOTE: you have to decide how `battleserver.py` and `battleplayer.py` will interact!
+How `battleserver.py` and `battleplayer.py` will interact, and what the 
+output looks like, are up to you! Let your creativity run wild!
 
-NOTE: you have to decide what the output looks like!
-
-NOTE: you must track how many moves it takes for your bot to win! Try to write the smartest bot possible!
+The one hard requirement is: You must track how many moves it takes for your 
+bot to win! Try to write the smartest bot possible!
 
 e.g.,
 ```
@@ -176,7 +198,7 @@ board: sunk carrier
 board: you win in 6 moves!
 ```
 
-More Examples
+MORE EXAMPLES
 =============
 
 (Hint: use these as your starting tests.)
