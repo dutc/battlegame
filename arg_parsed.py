@@ -1,4 +1,3 @@
-# arg parse for battlegame
 import argparse
 
 parser = argparse.ArgumentParser()

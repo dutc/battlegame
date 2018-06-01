@@ -6,7 +6,10 @@ def displayBoard(w,h,dicBoats):
             row.append("-")
         board.append(row)
 
-    for boat,info in dicBoats.items():
+    for boat, info in dicBoats.items():
+        if not info:
+            continue
+
         boatOtherInfo = {
             "carrier":(5,"c"),
             "battleship":(4,"b"),
