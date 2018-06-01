@@ -4,7 +4,6 @@ from displayBoard import displayBoard, createBoard
 def main():
     args = parser.parse_args()
 
-
     width, height = get_size(args.size)
 
     boats = {
