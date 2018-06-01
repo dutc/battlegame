@@ -228,7 +228,7 @@ MORE EXAMPLES
 Create a board of size (5, 5) with the carrier, battleship, cruiser, submarine, and destroyer placed horizontally on each row.
 
 ```
-$ python battleserver.py --size=5,5 --carrier=1,1,h --battleship=1,2,h --cruiser=1,3,h --submarine=1,5,h --destroyer=1,4,h --show
+$ python battleserver.py --size=5,5 --carrier=1,1,h --battleship=1,2,h --cruiser=1,3,h --submarine=1,4,h --destroyer=1,5,h --show
 ```
 
 Expected output (c = Carrier, b = Battleship, r = cRuiser, s = Submarine, d = Destroyer):
@@ -242,7 +242,7 @@ dd---
 
 Create a board of size (5, 5) with the carrier, battleship, cruiser, submarine, and destroyer placed vertically on each column.
 ```
-$ python battleserver.py --size=5,5 --carrier=1,1,v --battleship=2,1,v --cruiser=3,1,v --submarine=5,1,v --destroyer=4,1,v --show
+$ python battleserver.py --size=5,5 --carrier=1,1,v --battleship=2,1,v --cruiser=3,1,v --submarine=4,1,v --destroyer=5,1,v --show
 ```
 
 Expected output:
@@ -260,7 +260,7 @@ Create a board of size (5, 5) with the carrier, cruiser, submarine, and destroye
 $ python battleserver.py --size=5,5 --carrier=1,1,v --battleship=r --cruiser=3,1,v --submarine=5,1,v --destroyer=4,1,v --show
 ```
 
-Expected output (battleship is placed randomly):
+Expected output (battleship is placed randomly, in any `?`):
 ```
 c?rsd
 c?rsd
