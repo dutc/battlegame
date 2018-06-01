@@ -61,7 +61,8 @@ class Board:
 
         for ship in self.ships.values():
             for pos in ship:
-                if 1 <= pos.x <= self.size.x or 1 <= pos.y <= self.size.y:
+                if not (1 <= pos.x <= self.size.x) or not (1 <= pos.y <= self.size.y):
+                    print(pos)
                     raise Exception('invalid placement')
 
         if any(count > 1 for _, count in Counter(xy for pos in self.ships.values() for xy in pos).items()):
