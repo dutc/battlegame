@@ -204,7 +204,7 @@ bot to win! Try to write the smartest bot possible!
 
 e.g.,
 ```
-$ python battleplayer.py --server-command='battleserver.py --size=5,5 --carrier=1,1v'
+$ python battleplayer.py --server-command='battleserver.py --size=5,5 --carrier=1,1,v'
 bot: 1 1
 board: hit carrier
 bot: 2 1
