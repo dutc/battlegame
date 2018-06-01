@@ -1,7 +1,7 @@
 def displayBoard(board):
     flattenBoard = []
     for row in board:
-        flattenBoard.append("".join(row))
+        flattenBoard.append(" ".join(row))
 
     finalBoard = "\n".join(flattenBoard)
     print(finalBoard)

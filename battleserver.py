@@ -1,11 +1,9 @@
 from arg_parsed import parser
-from displayBoard import displayBoard
+from displayBoard import displayBoard, createBoard
 
 def main():
     args = parser.parse_args()
 
-    show = args.show
-    play = args.play
 
     width, height = get_size(args.size)
 
@@ -17,13 +15,12 @@ def main():
         'destroyer': get_boat(args.destroyer)
     }
 
-    # board = createBoard(width, height, boats)
+    board = createBoard(width, height, boats)
 
-    if show:
-        # displayBoard(board)
-        displayBoard(width, height, boats)
+    if args.show:
+        displayBoard(board)
 
-    if play:
+    if args.play:
         pass
 
 
