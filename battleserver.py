@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-from collections import namedtuple
+from collections import namedtuple, Counter
 from enum import Enum, auto
 from argparse import ArgumentParser
 from ast import literal_eval
 from random import randrange, choice
 
-class ShipDef(namedtuple('ShipDef', 'size char')):
-    def __str__(self):
-        return self.char
+ShipDef = namedtuple('ShipDef', 'size char')
 
 SHIPS = {
     'carrier':    ShipDef(5, 'c'),
@@ -23,63 +21,70 @@ class Size(namedtuple('Size', 'x y')):
         x, y = s.split(',')
         return cls(int(x), int(y))
 
+class Position(namedtuple('Position', 'x y')):
+    def __add__(self, other):
+        return Position(*(sum(coord) for coord in zip(self, other)))
+    def __radd__(self, other):
+        return Position(*(sum(coord) for coord in zip(self, other)))
+    def __mul__(self, scale):
+        return Position(*(coord*scale for coord in self))
+Pos = Position
+
 class Orientation(Enum):
     Horizontal = auto()
     Vertical = auto()
     Random = auto()
+    @classmethod
+    def from_cli(cls, s):
+        return {'h': Orientation.Horizontal, 'v': Orientation.Vertical}[s]
 
-class Space(namedtuple('Space', 'x y')):
-    def __add__(self, other):
-        return Space(*(sum(coord) for coord in zip(self, other)))
-    def __radd__(self, other):
-        return Space(*(sum(coord) for coord in zip(self, other)))
-    def __mul__(self, scale):
-        return Space(*(coord*scale for coord in self))
-
-class Pos(namedtuple('Pos', 'x y o')):
+class Placement(namedtuple('Placement', 'x y o')):
     @classmethod
     def from_cli(cls, s):
         if s.strip() == 'r':
             return cls(None, None, Orientation.Random)
         x, y, d = s.split(',')
-        return cls(int(x), int(y), {'h': Orientation.Horizontal, 'v': Orientation.Vertical}[d])
+        return cls(int(x), int(y), Orientation.from_cli(d))
 
 class Board:
-    def __init__(self, size, ships=None):
+    def __init__(self, size, ships=()):
         self.size = size
-        if ships is None:
-            ships = {}
+        placed   = {n:p for n, p in ships.items() if p.o is not Orientation.Random}
+        unplaced = {n:p for n, p in ships.items() if p.o is Orientation.Random}
         self.ships = {
             name: [
-                Space(pos.x, pos.y) + (Space(0, 1) if pos.o is Orientation.Horizontal else Space(1, 0)) * i
+                Pos(pos.x, pos.y) + (Pos(0, 1) if pos.o is Orientation.Horizontal else Pos(1, 0)) * i
                 for i in range(SHIPS[name].size)
             ]
-            for name, pos in ships.items()
-            if pos.o is not Orientation.Random
+            for name, pos in placed.items()
         }
-        pos = [xy for pos in self.ships.values()
-                  for xy in pos]
-        if len(pos) != len(set(pos)):
+
+        for ship in self.ships.values():
+            for pos in ship:
+                if 1 <= pos.x <= self.size.x or 1 <= pos.y <= self.size.y:
+                    raise Exception('invalid placement')
+
+        if any(count > 1 for _, count in Counter(xy for pos in self.ships.values() for xy in pos).items()):
             raise Exception('overlapping ships!')
-        for name, start in {name:start for name, start
-                                       in ships.items()
-                                       if start.o is Orientation.Random}.items():
+
+        for name, start in unplaced.items():
             for _ in range(100):
-                start  = Space(randrange(1, self.size.x+1), randrange(1, self.size.y+1))
+                start  = Pos(randrange(1, self.size.x+1), randrange(1, self.size.y+1))
                 orient = choice([Orientation.Horizontal, Orientation.Vertical])
-                candidate = [start + (Space(0, 1) if orient is Orientation.Horizontal else Space(1, 0)) * i
+                candidate = [start + (Pos(0, 1) if orient is Orientation.Horizontal else Pos(1, 0)) * i
                              for i in range(SHIPS[name].size)]
-                if all(c not in self.board and 1 <= c.x <= self.size.x and 1 <= c.y <= self.size.y for c in candidate):
+                if all(c not in self.board
+                       and 1 <= c.x <= self.size.x
+                       and 1 <= c.y <= self.size.y for c in candidate):
                     break
-            if not all(c not in self.board and 1 <= c.x <= self.size.x and 1 <= c.y <= self.size.y for c in candidate):
+            else:
                 raise Exception(f'could not place {name} in 100 tries')
             self.ships[name] = candidate
-            self.board
 
     @property
     def board(self):
         return {
-            (coord.x, coord.y): name
+            coord: name
             for name, pos in self.ships.items()
             for coord in pos
         }
@@ -88,8 +93,8 @@ class Board:
         if (x, y) in self.board:
             name = self.board[x, y]
             ship = self.ships[name]
-            if Space(x, y) in ship:
-                ship.remove(Space(x, y))
+            if Pos(x, y) in ship:
+                ship.remove(Pos(x, y))
                 if all(not ship for ship in self.ships.values()):
                     return 'you win!'
                 if not ship:
@@ -99,17 +104,16 @@ class Board:
 
     def pformat(self):
         return '\n'.join(
-            ''.join('-' if (x, y) not in self.board else SHIPS[self.board[x, y]].char
+            ''.join('-' if Pos(x, y) not in self.board else SHIPS[self.board[x, y]].char
                 for x in range(1, self.size.x + 1)
             )
             for y in range(1, self.size.y + 1)
         )
 
-
 parser = ArgumentParser()
 parser.add_argument('--size', default=Size(5,5), type=Size.from_cli)
 for ship in SHIPS:
-    parser.add_argument(f'--{ship}', type=Pos.from_cli)
+    parser.add_argument(f'--{ship}', type=Placement.from_cli)
 parser.add_argument('--show', action='store_true', default=False)
 parser.add_argument('--play', action='store_true', default=False)
 
