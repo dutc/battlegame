@@ -1,4 +1,14 @@
-def displayBoard(w,h,dicBoats):
+def displayBoard(board):
+    
+    flattenBoard = []
+    for row in board:
+        flattenBoard.append("".join(row))
+    
+    finalBoard = "\n".join(flattenBoard)
+
+    print(finalBoard)
+
+def createBoard(w,h,dicBoats):
     board = []
     for y in range(h):
         row = []
@@ -26,16 +36,5 @@ def displayBoard(w,h,dicBoats):
     
     #print(board)
 
-
-
-
-    flattenBoard = []
-    for row in board:
-        flattenBoard.append("".join(row))
-    
-    finalBoard = "\n".join(flattenBoard)
-
-    print(finalBoard)
-
-
+    return board
 displayBoard(5,5,{"destroyer":(1,1,"h")})
