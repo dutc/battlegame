@@ -1,15 +1,14 @@
 import random
 import numpy as np
 import sys
-import re
+import ast
 
 ## First row and columns indexed at 0, first coordinate representive of row number, second coordinate representive of column number
 ## ! python battleserver.py --size=5,5 --carrier=0,0,h --battleship=r --cruiser=2,0,v --submarine=r --destroyer=3,1,h --show
 
 ## Generates dictionary of options from command line
-keys = list(map(lambda x: re.sub(r'--([^=]*)={0,1}(.*){0,1}', r'\1', x), sys.argv[1:]))
-values = list(map(lambda x: tuple(re.sub(r'--([^=]*)={0,1}(.*){0,1}', r"\2", x).split(',')), sys.argv[1:]))
-tags = {k:v[0] if len(v) == 1 else v for k, v in dict(zip(keys, values)).items()}
+tags = list(map(lambda x: tuple((x + ("=" if "=" not in x else "")).split("=")) , sys.argv[1:]))
+tags = {k[2:]: tuple(v.split(',')) for k, v in dict(tags).items()}
 
 ## Constructs empty board with specified dimensions
 row, column = tuple(map(int,tags['size']))
@@ -87,13 +86,39 @@ try:
 except IndexError:
     bad_board = True
 
-## Print board with ship contents in desired locations
 if 'show' in tags.keys() and not bad_board:
+    ## Print board with ship contents in desired locations
     print(stringify(board))
+elif 'play' in tags.keys() and not bad_board:
+    ## Keeps track of ship status and create new cache for already hit positions
+    hits = {ship: ship_size[ship] for ship in ships}
+    hitcache = set()
+    while set(hits.values()) != {0}:
+        coord = raw_input("Insert coordinate: ") if sys.version_info[:2][0] == 2 else input("Insert coordinate: ")
+        try:
+            entry = board[ast.literal_eval(coord)] if sys.version_info[:2][0] == 2 else board[ast.literal_eval(coord)].decode('utf-8')
+            if coord not in hitcache:
+                try:
+                    ## Retrieves name of ship, decrement hits by 1 if valid, add coordinate to cache
+                    name = {v:k for k, v in ship_symbol.items()}[entry]
+                    hits[name] -= 1
+                    hitcache.add(coord)
+                    if entry != "-":
+                        print("Good job! " + ("Hit " if hits[name] > 0 else "Sunk ") + name + ".")
+                except KeyError:
+                    print("Missed.")
+            else:
+                print("Already hit, try again.")
+        except IndexError:
+            print("Index out of range, try again.")
+        except:
+            print("Invalid entry, try again.")
+    print("You win!")
 else:
-    if 'show' in tags.keys():
+    if any([x in tags.keys() for x in ['play', 'show']]):
         print("Invalid board created.")
     else:
-        print("Turn --show on")
+        print("Insert --show on to show board or --play to play game.")
+
 
 
