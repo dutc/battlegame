@@ -95,6 +95,8 @@ elif 'play' in tags.keys() and not bad_board:
     hitcache = set()
     while set(hits.values()) != {0}:
         coord = raw_input("Insert coordinate: ") if sys.version_info[:2][0] == 2 else input("Insert coordinate: ")
+        if 'print' in tags.keys():
+            print(coord)
         try:
             entry = board[ast.literal_eval(coord)] if sys.version_info[:2][0] == 2 else board[ast.literal_eval(coord)].decode('utf-8')
             if coord not in hitcache:
